@@ -1,12 +1,12 @@
-// contacts = []
+contacts = []
 
 //backend logic
 function Contact(first, last) {
   this.firstName = first;
   this.lastName = last;
   this.addresses = [];
-  // this.index = contacts.length;
-  // contacts.push(this);
+  this.index = contacts.length;
+  contacts.push(this);
 };
 
 function Address(street, city, state) {
@@ -65,7 +65,7 @@ $(document).ready(function() {
     });
 
 
-    $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
+    $("ul#contacts").append("<li><span id='"+newContact.index+"' class='contact'>" + newContact.fullName() + "</span></li>");
 
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
@@ -75,9 +75,11 @@ $(document).ready(function() {
 
     $(".contact").last().click(function(){
       $("#show-contact").show();
+      console.log(newContact);
       $("#show-contact h2").text(newContact.firstName);
       $(".first-name").text(newContact.firstName);
       $(".last-name").text(newContact.lastName);
+      $("#address-list").html(""); //keeps list from getting longer with every click
       newContact.addresses.forEach(function(address) {
         $("#address-list").append("<li>" + address.street + ", " + address.city + ", " + address.state + "</li>");
       });
