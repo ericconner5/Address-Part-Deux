@@ -31,26 +31,25 @@ Address.prototype.fullAddress = function() {
 $(document).ready(function() {
 
   $("#add-address").click(function(){
-    $("#new-addresses").append('<div class="new-address">' +
-        '<div class="form-group">' +
-          '<label for="new-street">Street</label>' +
-          '<input type="text" class="form-control new-street">' +
-        '</div>' +
-        '<div class="form-group">' +
-          '<label for="new-city">City</label>' +
-          '<input type="text" class="form-control new-city">' +
-        '</div>' +
-        '<div class="form-group">' +
-          '<label for="new-state">State</label>' +
-          '<input type="text" class="form-control new-state">' +
-        '</div>' +
-      '</div>');
+    var addressDiv = ('<div class="new-address hide-me">' +
+    '<div class="form-group">' +
+    '<label for="new-street">Street</label>' +
+    '<input type="text" class="form-control new-street">' +
+    '</div>' +
+    '<div class="form-group">' +
+    '<label for="new-city">City</label>' +
+    '<input type="text" class="form-control new-city">' +
+    '</div>' +
+    '<div class="form-group">' +
+    '<label for="new-state">State</label>' +
+    '<input type="text" class="form-control new-state">' +
+    '</div>' +
+    '</div>');
+    $("#new-addresses").append(addressDiv);
   });
+
   $("form#new-contact").submit(function(event){
     event.preventDefault();
-
-    
-
     var inputtedFirstName = $("input#new-first-name").val();
     var inputtedLastName = $("input#new-last-name").val();
     var newContact = new Contact (inputtedFirstName, inputtedLastName);
@@ -62,6 +61,7 @@ $(document).ready(function() {
       console.log(newAddress);
       newContact.addresses.push(newAddress);
       console.log(newContact);
+      $(".hide-me").remove();
     });
 
 
