@@ -1,5 +1,5 @@
-contacts = []
-
+var contacts = []
+var activeContact = []
 //backend logic
 function Contact(first, last) {
   this.firstName = first;
@@ -58,9 +58,7 @@ $(document).ready(function() {
       var inputtedCity = $(this).find("input.new-city").val();
       var inputtedState = $(this).find("input.new-state").val();
       var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState);
-      console.log(newAddress);
       newContact.addresses.push(newAddress);
-      console.log(newContact);
       $(".hide-me").remove();
     });
 
@@ -74,16 +72,40 @@ $(document).ready(function() {
     $(".new-state").val("");
 
     $(".contact").last().click(function(){
+      var uniqueId = $(this).attr("id"); //finds id of current element
       $("#show-contact").show();
-      console.log(newContact);
-      $("#show-contact h2").text(newContact.firstName);
-      $(".first-name").text(newContact.firstName);
-      $(".last-name").text(newContact.lastName);
+      $("input#new-first-name").val(contacts[uniqueId].firstName);
+      $("input#new-last-name").val(contacts[uniqueId].lastName);
+      $(".new-street").val(contacts[uniqueId].newStreet);
+      $(".new-city").val(contacts[uniqueId].newCity);
+      $(".new-state").val(contacts[uniqueId].newState);
+
+      console.log(uniqueId);
+      $("#show-contact h2").text(contacts[uniqueId].firstName); //matches id of current element to index of array
+      $(".first-name").text(contacts[uniqueId].firstName);
+      $(".last-name").text(contacts[uniqueId].lastName);
       $("#address-list").html(""); //keeps list from getting longer with every click
       newContact.addresses.forEach(function(address) {
         $("#address-list").append("<li>" + address.street + ", " + address.city + ", " + address.state + "</li>");
       });
     });
+  });
+
+
+  $("form#edit-contact").submit(function(event) {
+    event.preventDefault();
+    var inputtedFirstName = $("input#new-first-name").val();
+    var inputtedLastName = $("input#new-last-name").val();
+    var newContact = new Contact (inputtedFirstName, inputtedLastName);
+    $(".new-address").each(function() {
+      var inputtedStreet = $(this).find("input.new-street").val();
+      var inputtedCity = $(this).find("input.new-city").val();
+      var inputtedState = $(this).find("input.new-state").val();
+      var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState);
+      newContact.addresses.push(newAddress);
+      $(".hide-me").remove();
+
+  });
   });
 
 
